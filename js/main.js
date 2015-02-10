@@ -183,6 +183,13 @@ var getNotesFromCollection = function(collection) {
 
 // ----------- EVENT HANDLERS ----------------
 
+$(document).ready(function() {
+  var queryOne = window.location.search.split('&')[0];
+  if (queryOne.split('=')[0] === '?set') {
+    getNotesFromCollection(queryOne.split('=')[1]);
+  }
+});
+
 $('.pane-hide').on('click', function(e) {
   $('.sidebar').css('left', '-300px');  
 });
