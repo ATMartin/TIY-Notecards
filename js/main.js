@@ -90,6 +90,10 @@ $('.clear').on('click', function(e) {
   $workspace.empty();  
 });
 
+$('.mobile').on('click', function(e) {
+  $('.notecard').toggleClass('mobile');  
+});
+
 $workspace.on('dblclick', '.notecard', function(e) {
   e.preventDefault();
   deleteArm($(this)); 
@@ -100,10 +104,17 @@ $workspace.on('click', '.notecard', function(e) {
   deletePoof($(this));
 });
 
+$workspace.on('click', '.clickbait', function(e) {
+  deleteArm($(this).parent());
+  e.stopPropagation();
+});
+
 $workspace.on('dblclick', function(e) {
   e.preventDefault();
   addCardAtPointer(e.pageX, e.pageY);
 });
+
+$
 
 $(document).ready(function() {
   console.log("******Hi there!********");

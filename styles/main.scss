@@ -75,6 +75,10 @@ header {
       top: 5px;
       right: 20px;
     }
+    &.mobile {
+      top: 5px;
+      right: 70px;
+    }
   }
 }
   
@@ -189,6 +193,50 @@ header {
   }
   textarea { 
     width: 100%; 
+  }
+  .clickbait {
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    bottom: 0;
+    right: -50px;
+    border-radius: 0 20px 20px 0;
+    display: none;
+  }
+  &:before,
+  &:after {
+    //Mobile Handles
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    background: white;
+    text-align: center;
+    font-family: "octicons";
+    font-size: 30px;
+    line-height: 50px;
+    display: none;  
+  }
+  &:after {
+    //Move
+    content: "\f041";
+    top: 0;
+    left: -50px;
+    border-radius: 20px 0 0 20px;
+    border-right: none;
+  }
+  &:before {
+    //Delete
+    content: "\f081";
+    bottom: 0;
+    right: -50px;
+    border-radius: 0 20px 20px 0;
+    border-left: none;
+    box-shadow: 1px 2px 3px black;
+  }
+  &.mobile:before,
+  &.mobile:after,
+  &.mobile .clickbait {
+    display: block;
   }
   &:active {
     cursor: grabbing;
