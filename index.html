@@ -22,11 +22,26 @@
     <div class="header-button save">
       <span class="octicon octicon-cloud-upload"></span>
     </div>
+    <div class="header-button load">
+      <span class="octicon octicon-cloud-download"></span>
+    </div>
     <div class="header-button mobile">
       <span class="octicon octicon-device-mobile"></span>
     </div>
     <div class="header-button clear">
       <span class="octicon octicon-x"></span>
+    </div>
+    <div class="dialog dlg-save">
+      <label for="save">Save:</label>
+      <input type="text" name="save" class="collection-name" placeholder="Collection">
+      <button class="do-save"><span class="octicon octicon-plus"></span></button>
+      <label for="overwrite" class="subtext">Overwrite?</label>
+      <input type="checkbox" class="overwrite" name="overwrite">
+    </div>
+    <div class="dialog dlg-load">
+      <label for="load">Load:</label>
+      <input type="text" name="load" class="collection-name" placeholder="Collection">
+      <button class="do-load"><span class="octicon octicon-plus"></span></button>
     </div>
   </header>
   

@@ -150,13 +150,22 @@ var getNotecardData = function() {
   return notecards;
 };
 
+var toggleDialog = function(selector) {
+  var nowRight = ($(selector).css('right') === '0px') ? '-250px' : '0';
+  $(selector).css('right', nowRight);
+}
+
 // ---------- DATABASE FUNCTIONS -------------
 
 var createCollection = function() {
   dbRoot.set({'collOne': true});
 };
 
-var addNotesToCollection = function(notes, collection) {
+var addNotesToCollection = function(notes, collection, overwrite) {
+  overwrite = overwrite || false;
+  if (overwrite) {
+    dbRoot.child(collection).set({});
+  }
   notes.forEach(function(note) {
     dbRoot.child(collection).push(note);
   });
@@ -167,6 +176,7 @@ var getNotesFromCollection = function(collection) {
     notes.forEach(function(note) {
       $workspace.append(loadCard(note.val())); 
     });
+    $('.notecard').draggable();
    });
 };
 
@@ -194,7 +204,29 @@ $('.mobile').on('click', function(e) {
 });
 
 $('.save').on('click', function(e) {
-  getNotecardData();  
+  toggleDialog('.dlg-save');  
+});
+
+$('.do-save').on('click', function(e) {
+  var $input = $(this).prev('.collection-name');
+  if ( $input.val() === '') { return; } 
+  var theseNotes = getNotecardData();
+  var overwrite = !!$('.overwrite').is(':checked');
+  addNotesToCollection(theseNotes, $input.val(), overwrite);
+  $input.val('');
+  toggleDialog('.dlg-save');
+});
+
+$('.load').on('click', function(e) {
+  toggleDialog('.dlg-load');
+});
+
+$('.do-load').on('click', function(e) {
+  var $input = $(this).prev('.collection-name');
+  if ( $input.val() === '') { return; }
+  getNotesFromCollection($input.val());
+  $input.val('');
+  toggleDialog('.dlg-load');
 });
 
 $workspace.on('dblclick', '.notecard', function(e) {

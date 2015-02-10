@@ -56,6 +56,50 @@ header {
       }
     }
   }
+  .dialog {
+    position: absolute;
+    right: -250px;
+    top: 50px;
+    height: 50px;
+    width: 250px;
+    background: #333;
+    border-radius: 0 0 0 20px;
+    padding: 10px;
+    font-family: 'Helvetica Neue', 'Helvetica', sans-serif;
+    color: white;
+    transition: all ease 0.5s;
+
+    .collection-name {
+      outline: none;
+      border: none;
+      font-size: 20px;
+      width: 150px;
+      border-radius: 5px;
+      padding: 0 5px;
+    }
+    .subtext { 
+      font-size: 14px; 
+      margin-left: 30%;
+    }
+    .overwrite {
+      display: inline-block;
+      vertical-align: top;
+    }
+    button {
+      vertical-align: top;
+      height: 23px;
+      width: 23px;
+      border: none;
+      border-radius: 5px;
+      background: white;
+      transition: all ease 0.5s;
+      &:hover {
+        background: gray;
+        color: white;
+      }
+    }
+
+  }
   .header-button {
     display: inline-block;
     position: absolute;
@@ -72,6 +116,10 @@ header {
       color: white;
     }
     &.save {
+      top: 5px;
+      right: 170px;
+    }
+    &.load {
       top: 5px;
       right: 120px;
     }
