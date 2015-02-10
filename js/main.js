@@ -91,6 +91,7 @@ $('.clear').on('click', function(e) {
 });
 
 $workspace.on('dblclick', '.notecard', function(e) {
+  e.preventDefault();
   deleteArm($(this)); 
   e.stopPropagation(); 
 });
@@ -100,6 +101,7 @@ $workspace.on('click', '.notecard', function(e) {
 });
 
 $workspace.on('dblclick', function(e) {
+  e.preventDefault();
   addCardAtPointer(e.pageX, e.pageY);
 });
 

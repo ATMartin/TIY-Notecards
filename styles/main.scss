@@ -187,6 +187,9 @@ header {
   button {
     outline: none;
   }
+  textarea { 
+    width: 100%; 
+  }
   &:active {
     cursor: grabbing;
   }
@@ -196,9 +199,14 @@ header {
   @include notecard(40%, 30%); 
   transition: background ease 0.5s;
    
-  .story-header {
-    display: block;
-    font-weight: bold;
+  .story {
+    .story-header {
+      display: block;
+      font-weight: bold;
+    }
+    textarea {
+      height: 25%;
+    }
   }
 
   &.crc {
@@ -207,6 +215,7 @@ header {
       background: none;
       textarea { 
         outline: none;
+        height: 100%;
       }
     }
     .crc-class {
@@ -222,6 +231,7 @@ header {
       padding: 0;
       margin: 0;
       width: 49%;
+      height: 80%;
     }
     .crc-roles { left: 0; }
     .crc-collaborators { right: 0; }
