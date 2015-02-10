@@ -1,8 +1,16 @@
-$workspace = $('.workspace');
-$selectNewCard = $('.choose-new-notecard');
+var $workspace = $('.workspace');
+var $selectNewCard = $('.choose-new-notecard');
 
-$templateStory = _.template($('[data-template-name=story-card').text());
-$templateCrc = _.template($('[data-template-name=crc-card').text());
+var $templateStory = _.template($('[data-template-name=story-card').text());
+var $templateCrc = _.template($('[data-template-name=crc-card').text());
+
+var dbRoot = new Firebase("https://tiy-collections.firebaseio.com/Notecards");
+
+var myForEach = function(array, callback, scope) {
+  for (var i = 0; i < array.length; i++) {
+    callback.call(scope, i, array[i]);
+  }
+};
 
 var notecardData = function(type, left, top, data) {
   this.type = type;
@@ -134,12 +142,36 @@ var deleteDisarm = function(me) {
   }
 }
 
-
-
 var getNotecardData = function() {
-
-  console.log($('.notecard'));
+  var notecards = [];
+  myForEach($('.notecard'), function(idx, card) {
+    notecards.push(packageCard($(card)));  
+  });
+  return notecards;
 };
+
+// ---------- DATABASE FUNCTIONS -------------
+
+var createCollection = function() {
+  dbRoot.set({'collOne': true});
+};
+
+var addNotesToCollection = function(notes, collection) {
+  notes.forEach(function(note) {
+    dbRoot.child(collection).push(note);
+  });
+};
+
+var getNotesFromCollection = function(collection) {
+   dbRoot.child(collection).once('value', function(notes) {
+    notes.forEach(function(note) {
+      $workspace.append(loadCard(note.val())); 
+    });
+   });
+};
+
+
+// ----------- EVENT HANDLERS ----------------
 
 $('.pane-hide').on('click', function(e) {
   $('.sidebar').css('left', '-300px');  
