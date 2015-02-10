@@ -1,15 +1,21 @@
 $workspace = $('.workspace');
 $selectNewCard = $('.choose-new-notecard');
 
-
 $templateStory = _.template($('[data-template-name=story-card').text());
 $templateCrc = _.template($('[data-template-name=crc-card').text());
+
+var notecardData = function(type, left, top, data) {
+  this.type = type;
+  this.loc = [left, top];
+  this.data = data;
+}
 
 var getOpts = function(cardType) {
   var opts = {};
   switch (cardType) {
     case 'story-jake':
       opts = {
+        type: 'jake',
         cond1: 'Given...',
         cond2: '...when...',
         cond3: '...then...'
@@ -17,6 +23,7 @@ var getOpts = function(cardType) {
       break;
     case 'story-user':
       opts = {
+        type: 'user',
         cond1: 'As a...',
         cond2: '...I want...',
         cond3: '...so that...'
@@ -24,6 +31,7 @@ var getOpts = function(cardType) {
       break;
     case 'story-jobs':
       opts = {
+        type: 'jobs',
         cond1: 'When I...',
         cond2: '...I want...',
         cond3: '...so that...'
@@ -41,6 +49,58 @@ var buildCard = function(cardType) {
   }
 }
 
+var populateStoryCard = function($card, data) {
+  $card.find('.one+textarea').val(data['one']);
+  $card.find('.two+textarea').val(data['two']);
+  $card.find('.three+textarea').val(data['three']);
+  return $card;
+}
+
+var populateCRCCard = function($card, data) {
+  $card.find('.crc-class').val(data['class']);
+  $card.find('.crc-roles>textarea').val(data['roles']);
+  $card.find('.crc-collaborators>textarea').val(data['collab']);
+  return $card;
+}
+
+var positionCard = function($card, x, y) {
+  $card.css({'top': y +'px', 'left': x + 'px'});
+  return $card;
+};
+
+var loadCard = function(cardData) {
+  var $thisCard = $(buildCard(cardData.type));
+  if (cardData.type.indexOf('crc') > -1) {
+    $thisCard = populateCRCCard($thisCard, cardData.data);
+  } else {
+    $thisCard = populateStoryCard($thisCard, cardData.data);
+  }
+  $thisCard = positionCard($thisCard, cardData.loc[0], cardData.loc[1]);
+  return $thisCard; 
+};
+
+var packageCard = function($card) {
+  var cardData = new notecardData(null, null, null, null);
+  var subType = $card.attr('class').match(/(jake|jobs|user|crc)/)[0];
+  if (subType == 'crc') {
+    cardData.type = 'crc-card';
+    cardData.data = {
+      'class' : $card.find('.crc-class').val(),
+      'roles' : $card.find('.crc-roles textarea').val(),
+      'collab' : $card.find('.crc-collaborators textarea').val() 
+    };
+  } else {
+    cardData.type = 'story-' + subType;
+    cardData.data = {
+      'one': $card.find('.one+textarea').val(),
+      'two': $card.find('.two+textarea').val(),
+      'three': $card.find('.three+textarea').val()
+    };
+  }
+  cardData.loc = [$card.offset().left, $card.offset().top];
+  return cardData;
+};
+
 var addCard = function() {
   var cardType = $selectNewCard.val();
   var newCard = buildCard(cardType);
@@ -51,7 +111,7 @@ var addCard = function() {
 var addCardAtPointer = function(x, y) {
   var cardType = $selectNewCard.val();
   var newCard = buildCard(cardType);
-  var wrappedCard = $(newCard).css({'top': y+'px', 'left':x+'px'});
+  var wrappedCard = positionCard($(newCard), x, y);
   $workspace.append(wrappedCard);
   $('.notecard').draggable();
 }
@@ -74,6 +134,13 @@ var deleteDisarm = function(me) {
   }
 }
 
+
+
+var getNotecardData = function() {
+
+  console.log($('.notecard'));
+};
+
 $('.pane-hide').on('click', function(e) {
   $('.sidebar').css('left', '-300px');  
 });
@@ -92,6 +159,10 @@ $('.clear').on('click', function(e) {
 
 $('.mobile').on('click', function(e) {
   $('.notecard').toggleClass('mobile');  
+});
+
+$('.save').on('click', function(e) {
+  getNotecardData();  
 });
 
 $workspace.on('dblclick', '.notecard', function(e) {

@@ -76,6 +76,10 @@ header .header-button:hover {
   background-color: black;
   color: white;
 }
+header .header-button.save {
+  top: 5px;
+  right: 120px;
+}
 header .header-button.clear {
   top: 5px;
   right: 20px;

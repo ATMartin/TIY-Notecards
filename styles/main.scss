@@ -71,6 +71,10 @@ header {
       background-color: black;
       color: white;
     }
+    &.save {
+      top: 5px;
+      right: 120px;
+    }
     &.clear {
       top: 5px;
       right: 20px;
