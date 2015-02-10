@@ -8,11 +8,27 @@
 </head>
 <body>
   <header>
-    
+    <span class="brand">notecards</span>
+      <div class="selector">
+        <label for="selector">Default Card:</label>
+        <select class="choose-new-notecard">
+          <option value="story-user">Story - User</option>
+          <option value="story-jake">Story - Jake</option>
+          <option value="story-jobs">Story - Jobs</option>
+          <option value="crc-card">CRC Card</option>
+        </select>
+      <button class="add-card">+</button>
+    </div>
+    <div class="header-button clear">
+      <span class="octicon octicon-x"></span>
+    </div>
   </header>
   
   <div class="sidebar">
+    <div class="scrollsafe">
+  <!--
     <div class="selector">
+      <label for="selector">Default Card:</label>
       <select class="choose-new-notecard">
         <option value="story-user">Story - User</option>
         <option value="story-jake">Story - Jake</option>
@@ -21,6 +37,18 @@
       </select>
       <button class="add-card">+</button>
     </div>
+  -->  
+    <div class="help">
+      <h3>To Add a Card:</h3>
+      <p> - Double-click anywhere in the workspace, or use the "+" above.</p>
+      <h3>To Delete a Card</h3>
+      <p> - Double-click on the card to arm, then click again to delete. Made an oops? Red, "armed" cards will disarm after a short time.</p>
+      <h3>To Clear the Air:</h3>
+      <p> - Litle bitty "x", top right corner. Careful! No safety on this trigger.</p>
+      <h3>To Hide This Pane:</h3>
+      <p> - The "&lt;&lt;&lt;" below will close me. The "&gt;" will bring me back.</p>
+    </div>
+  </div>
     <button class="pane-hide"> <<< </button>
     <button class="pane-show"> > </button>
   </div>

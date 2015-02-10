@@ -6,6 +6,8 @@ html,
 body {
   margin: 0;
   padding: 0;
+  width: 100%;
+  height: 100%;
 }
 
 header {
@@ -14,24 +16,98 @@ header {
   left: 0;
   height: 50px;
   width: 100%;
-  background: #0f0;
+  background: #aaa;
+  z-index: 10;
+}
+header .brand {
+  display: inline-block;
+  width: 300px;
+  font-size: 3em;
+  line-height: 40px;
+  color: white;
+  font-style: bold;
+  font-family: "Helvetica Neue", "Helvetica", sans-serif;
+  margin-left: 40px;
+}
+header .selector {
+  position: absolute;
+  top: 15px;
+  left: 40%;
+  height: 50px;
+  font-size: 18px;
+}
+header .selector select {
+  border: none;
+  font-size: 18px;
+}
+header .selector label {
+  color: white;
+  font-family: 'Helvetica Neue', 'Helvetica', sans-serif;
+}
+header .selector button {
+  width: 25px;
+  height: 25px;
+  border-radius: 6px;
+  border: none;
+  background: white;
+  font-size: 18px;
+  line-height: 15px;
+  -webkit-transition: all ease 0.5s;
+          transition: all ease 0.5s;
+}
+header .selector button:hover {
+  color: white;
+  background: #333;
+}
+header .header-button {
+  display: inline-block;
+  position: absolute;
+  text-align: center;
+  font-size: 50px;
+  line-height: 30px;
+  border-radius: 5px;
+  height: 40px;
+  width: 40px;
+  background-color: white;
+  -webkit-transition: all ease 0.5s;
+          transition: all ease 0.5s;
+}
+header .header-button:hover {
+  background-color: black;
+  color: white;
+}
+header .header-button.clear {
+  top: 5px;
+  right: 20px;
 }
 
 .sidebar {
+  padding-top: 50px;
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
   width: 300px;
+  z-index: 5;
   text-align: center;
   background: #333;
   -webkit-transition: all ease 0.5s;
           transition: all ease 0.5s;
 }
+.sidebar .scrollsafe {
+  height: 100%;
+  overflow: auto;
+  padding-bottom: 100px;
+}
 .sidebar .selector {
-  position: absolute;
-  top: 200px;
-  left: 40px;
+  text-align: left;
+  margin: 0 auto;
+  margin-top: 50px;
+  width: 240px;
+}
+.sidebar .selector label {
+  color: white;
+  font-family: 'Helvetica Neue', 'Helvetica', sans-serif;
 }
 .sidebar .selector .choose-new-notecard {
   width: 200px;
@@ -48,6 +124,24 @@ header {
   font-size: 18px;
   background: white;
 }
+.sidebar .help {
+  text-align: left;
+  margin: 0 auto;
+  margin-top: 30%;
+  padding: 10px;
+  border: 1px dashed white;
+  border-radius: 20px;
+  width: 275px;
+  color: #eee;
+  font-family: 'Helvetica Neue', 'Helvetica', sans-serif;
+}
+.sidebar .help h3 {
+  margin: 10px auto 0 auto;
+}
+.sidebar .help p {
+  font-size: 18px;
+  margin: 0 auto;
+}
 .sidebar .pane-hide,
 .sidebar .pane-show {
   position: absolute;
@@ -56,18 +150,16 @@ header {
   font-size: 30px;
   text-align: center;
   outline: none;
+  background: #aaa;
 }
 .sidebar .pane-hide {
   left: 0;
   width: 100%;
   border: none;
-  margin: 0 auto;
-  background: #aaa;
 }
 .sidebar .pane-show {
   width: 40px;
   right: -40px;
-  background: #aaa;
   border-radius: 0 50% 0 0;
   border: none;
   border-left: 1px dotted white;
@@ -75,20 +167,31 @@ header {
 
 .workspace {
   position: relative;
-  background: url("http://photogenikk.weebly.com/uploads/5/4/2/4/5424021/img_2448.jpg");
+  width: 100%;
+  height: 100%;
+  background-color: #3be;
 }
 
 .notecard {
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 40%;
+  left: 30%;
   height: 200px;
   width: 400px;
   padding: 10px;
   background: white;
   cursor: -webkit-grab;
   cursor: grab;
+  font-size: 14px;
+  font-family: 'Helvetica Neue', 'Helvetica', sans-serif;
   box-shadow: 1px 2px 3px black;
+  -webkit-transition: background ease 0.5s;
+          transition: background ease 0.5s;
+}
+.notecard textarea,
+.notecard input,
+.notecard button {
+  outline: none;
 }
 .notecard:active {
   cursor: -webkit-grabbing;
