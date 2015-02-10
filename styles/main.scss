@@ -1,0 +1,128 @@
+* { box-sizing: border-box; }
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 50px;
+  width: 100%;
+  background: #0f0;  
+}
+  
+.sidebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 300px;
+  text-align: center;
+  background: #333;
+  transition: all ease 0.5s;
+  .selector {
+    position: absolute;
+    top: 200px;
+    left: 40px;
+    .choose-new-notecard {
+      width: 200px;
+      border-radius: none;
+      outline: none;
+      border: none;
+      font-size: 18px;
+    }
+    .add-card {
+      width: 30px;
+      height: 30px;
+      border: none;
+      border-radius: 5px;
+      font-size: 18px;  
+      background: white;
+    }
+  }
+  .pane-hide,
+  .pane-show {
+    position: absolute;
+    bottom: 0;
+    height: 50px;
+    font-size: 30px;
+    text-align: center;
+    outline: none;
+  }
+  .pane-hide {
+    left: 0;
+    width: 100%;
+    border: none;
+    margin: 0 auto;
+    background: #aaa;
+  }
+  .pane-show {
+    width: 40px;
+    right: -40px;
+    background: #aaa;
+    border-radius: 0 50% 0 0;
+    border: none;
+    border-left: 1px dotted white;
+
+  }
+}
+
+.workspace {
+  position: relative;
+  background-image: url('img/cork.jpg');
+  background-size: cover;
+}
+
+@mixin notecard($top, $left) {
+  position: absolute;
+  top: $top;
+  left: $left;
+  height: 200px;
+  width: 400px;
+  padding: 10px;
+  background: white;
+  cursor: grab;
+  box-shadow: 1px 2px 3px black;
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.notecard {
+  @include notecard(10px, 10px);
+  
+  .story-header {
+    display: block;
+    font-weight: bold;
+  }
+
+  &.crc {
+    &>* {
+      border: none;
+      background: none;
+      textarea { 
+        outline: none;
+      }
+    }
+    .crc-class {
+      border-bottom: 2px solid black;
+      height: 30px;
+      width: 100%;
+      font-size: 20px;
+      line-height: 20px;
+    }
+    .crc-roles, 
+    .crc-collaborators {
+      display: inline-block;
+      padding: 0;
+      margin: 0;
+      width: 49%;
+    }
+    .crc-roles { left: 0; }
+    .crc-collaborators { right: 0; }
+  }
+}

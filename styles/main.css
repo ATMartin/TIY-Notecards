@@ -1,0 +1,127 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 50px;
+  width: 100%;
+  background: #0f0;
+}
+
+.sidebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 300px;
+  text-align: center;
+  background: #333;
+  -webkit-transition: all ease 0.5s;
+          transition: all ease 0.5s;
+}
+.sidebar .selector {
+  position: absolute;
+  top: 200px;
+  left: 40px;
+}
+.sidebar .selector .choose-new-notecard {
+  width: 200px;
+  border-radius: none;
+  outline: none;
+  border: none;
+  font-size: 18px;
+}
+.sidebar .selector .add-card {
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  background: white;
+}
+.sidebar .pane-hide,
+.sidebar .pane-show {
+  position: absolute;
+  bottom: 0;
+  height: 50px;
+  font-size: 30px;
+  text-align: center;
+  outline: none;
+}
+.sidebar .pane-hide {
+  left: 0;
+  width: 100%;
+  border: none;
+  margin: 0 auto;
+  background: #aaa;
+}
+.sidebar .pane-show {
+  width: 40px;
+  right: -40px;
+  background: #aaa;
+  border-radius: 0 50% 0 0;
+  border: none;
+  border-left: 1px dotted white;
+}
+
+.workspace {
+  position: relative;
+  background: url("http://photogenikk.weebly.com/uploads/5/4/2/4/5424021/img_2448.jpg");
+}
+
+.notecard {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  height: 200px;
+  width: 400px;
+  padding: 10px;
+  background: white;
+  cursor: -webkit-grab;
+  cursor: grab;
+  box-shadow: 1px 2px 3px black;
+}
+.notecard:active {
+  cursor: -webkit-grabbing;
+  cursor: grabbing;
+}
+.notecard .story-header {
+  display: block;
+  font-weight: bold;
+}
+.notecard.crc > * {
+  border: none;
+  background: none;
+}
+.notecard.crc > * textarea {
+  outline: none;
+}
+.notecard.crc .crc-class {
+  border-bottom: 2px solid black;
+  height: 30px;
+  width: 100%;
+  font-size: 20px;
+  line-height: 20px;
+}
+.notecard.crc .crc-roles,
+.notecard.crc .crc-collaborators {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  width: 49%;
+}
+.notecard.crc .crc-roles {
+  left: 0;
+}
+.notecard.crc .crc-collaborators {
+  right: 0;
+}
