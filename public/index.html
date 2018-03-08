@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Notecards</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/2.1.2/octicons.min.css">
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+  <header>
+    <span class="brand">notecards</span>
+      <div class="selector">
+        <label for="selector">Default Card:</label>
+        <select class="choose-new-notecard">
+          <option value="story-user">Story - User</option>
+          <option value="story-jake">Story - Jake</option>
+          <option value="story-jobs">Story - Jobs</option>
+          <option value="crc-card">CRC Card</option>
+        </select>
+      <button class="add-card">+</button>
+    </div>
+    <div class="header-button save">
+      <span class="octicon octicon-cloud-upload"></span>
+    </div>
+    <div class="header-button load">
+      <span class="octicon octicon-cloud-download"></span>
+    </div>
+    <div class="header-button mobile">
+      <span class="octicon octicon-device-mobile"></span>
+    </div>
+    <div class="header-button clear">
+      <span class="octicon octicon-x"></span>
+    </div>
+    <div class="dialog dlg-save">
+      <label for="save">Save:</label>
+      <input type="text" name="save" class="collection-name" placeholder="Collection">
+      <button class="do-save"><span class="octicon octicon-plus"></span></button>
+      <label for="overwrite" class="subtext">Overwrite?</label>
+      <input type="checkbox" class="overwrite" name="overwrite">
+    </div>
+    <div class="dialog dlg-load">
+      <label for="load">Load:</label>
+      <input type="text" name="load" class="collection-name" placeholder="Collection">
+      <button class="do-load"><span class="octicon octicon-plus"></span></button>
+    </div>
+  </header>
+  
+  <div class="sidebar">
+    <div class="scrollsafe">
+  <!--
+    <div class="selector">
+      <label for="selector">Default Card:</label>
+      <select class="choose-new-notecard">
+        <option value="story-user">Story - User</option>
+        <option value="story-jake">Story - Jake</option>
+        <option value="story-jobs">Story - Jobs</option>
+        <option value="crc-card">CRC Card</option>
+      </select>
+      <button class="add-card">+</button>
+    </div>
+  -->  
+    <div class="help">
+      <h3>To Add a Card:</h3>
+      <p> - Double-click anywhere in the workspace, or use the "+" above.</p>
+      <h3>To Delete a Card</h3>
+      <p> - Double-click on the card to arm, then click again to delete. Made an oops? Red, "armed" cards will disarm after a short time.</p>
+      <h3>To Clear the Air:</h3>
+      <p> - Litle bitty "x", top right corner. Careful! No safety on this trigger.</p>
+      <h3>To Hide This Pane:</h3>
+      <p> - The "&lt;&lt;&lt;" below will close me. The "&gt;" will bring me back.</p>
+    </div>
+  </div>
+    <button class="pane-hide"> <<< </button>
+    <button class="pane-show"> > </button>
+  </div>
+  
+  <div class="workspace">
+  
+  </div>
+  
+  <script type="text/template" data-template-name="story-card">
+    <div class="notecard story <%= type %> ui-draggable">
+      <span class="story-header one"><%= cond1 %></span>
+      <textarea style="width: 100%; height: 20%;"></textarea>
+      <span class="story-header two"><%= cond2 %></span>
+      <textarea style="width: 100%; height: 25%;"></textarea>
+      <span class="story-header three"><%= cond3 %></span>
+      <textarea style="width: 100%; height: 25%;"></textarea>
+      <div class="clickbait"></div>
+    </div>
+  </script>
+
+  <script type="text/template" data-template-name="crc-card">
+    <div class="notecard crc ui-draggable">
+      <input type="text" class="crc-class" placeholder="Class">
+      <div class="crc-roles">
+        <textarea style="width: 100%; height: 100%" placeholder="Responsibilities"></textarea>
+      </div>
+      <div class="crc-collaborators">
+        <textarea style="width: 100%; height: 100%;" placeholder="Collab"></textarea>
+      </div>
+      <div class="clickbait"></div>
+    </div>
+  </script>
+
+  <script type="text/javascript" src="js/vendor.js"></script>
+  <script type="text/javascript" src="js/main.js"></script>
+
+</body>
+</html>

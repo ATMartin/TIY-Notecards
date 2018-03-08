@@ -1,0 +1,339 @@
+* { box-sizing: border-box; }
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 50px;
+  width: 100%;
+  background: #aaa;
+  z-index: 10; 
+  .brand {
+    display: inline-block;
+    width: 300px;
+    font-size: 3em;
+    line-height: 40px;
+    color: white;
+    font-style: bold;
+    font-family: "Helvetica Neue", "Helvetica", sans-serif;
+    margin-left: 40px;
+  }
+  .selector {
+    position: absolute;
+    top: 15px;
+    left: 40%;
+    height: 50px;
+    font-size: 18px;
+
+    select {
+      border: none;
+      font-size: 18px;
+    }
+    label {
+      color: white;
+      font-family: 'Helvetica Neue', 'Helvetica', sans-serif;
+    }
+    button {
+      width: 25px;
+      height: 25px;
+      border-radius: 6px;
+      border: none;
+      background: white;
+      font-size: 18px;
+      line-height: 15px;
+      transition: all ease 0.5s;
+      &:hover {
+        color: white;
+        background: #333;
+      }
+    }
+  }
+  .dialog {
+    position: absolute;
+    right: -250px;
+    top: 50px;
+    height: 50px;
+    width: 250px;
+    background: #333;
+    border-radius: 0 0 0 20px;
+    padding: 10px;
+    font-family: 'Helvetica Neue', 'Helvetica', sans-serif;
+    color: white;
+    transition: all ease 0.5s;
+
+    .collection-name {
+      outline: none;
+      border: none;
+      font-size: 20px;
+      width: 150px;
+      border-radius: 5px;
+      padding: 0 5px;
+    }
+    .subtext { 
+      font-size: 14px; 
+      margin-left: 30%;
+    }
+    .overwrite {
+      display: inline-block;
+      vertical-align: top;
+    }
+    button {
+      vertical-align: top;
+      height: 23px;
+      width: 23px;
+      border: none;
+      border-radius: 5px;
+      background: white;
+      transition: all ease 0.5s;
+      &:hover {
+        background: gray;
+        color: white;
+      }
+    }
+
+  }
+  .header-button {
+    display: inline-block;
+    position: absolute;
+    text-align: center;
+    font-size: 50px;
+    line-height: 30px;
+    border-radius: 5px;
+    height: 40px;
+    width: 40px;
+    background-color: white;
+    transition: all ease 0.5s;
+    &:hover {
+      background-color: black;
+      color: white;
+    }
+    &.save {
+      top: 5px;
+      right: 170px;
+    }
+    &.load {
+      top: 5px;
+      right: 120px;
+    }
+    &.clear {
+      top: 5px;
+      right: 20px;
+    }
+    &.mobile {
+      top: 5px;
+      right: 70px;
+    }
+  }
+}
+  
+.sidebar {
+  padding-top: 50px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 300px;
+  z-index: 5;
+  text-align: center;
+  background: #333;
+  transition: all ease 0.5s;
+  .scrollsafe { 
+    height: 100%;
+    overflow: auto;
+    padding-bottom: 100px; 
+  }
+  .selector {
+    text-align: left;
+    label {
+      color: white;
+      font-family: 'Helvetica Neue', 'Helvetica', sans-serif;
+    }
+    margin: 0 auto;
+    //position: absolute;
+    margin-top: 50px;
+    width: 240px;
+    //left: 40px;
+    .choose-new-notecard {
+      width: 200px;
+      border-radius: none;
+      outline: none;
+      border: none;
+      font-size: 18px;
+    }
+    .add-card {
+      width: 30px;
+      height: 30px;
+      border: none;
+      border-radius: 5px;
+      font-size: 18px;  
+      background: white;
+    }
+  }
+  .help {
+    text-align: left;
+    margin: 0 auto;
+    margin-top: 30%;
+    padding: 10px;
+    border: 1px dashed white;
+    border-radius: 20px;
+    width: 275px;
+    color: #eee;
+    font-family: 'Helvetica Neue', 'Helvetica', sans-serif;
+    h3 {
+       margin: 10px auto 0 auto; 
+    }
+    p { 
+      font-size: 18px;
+      margin: 0 auto;
+    }
+  }
+  .pane-hide,
+  .pane-show {
+    position: absolute;
+    bottom: 0;
+    height: 50px;
+    font-size: 30px;
+    text-align: center;
+    outline: none;
+    background: #aaa;
+  }
+  .pane-hide {
+    left: 0;
+    width: 100%;
+    border: none;
+  }
+  .pane-show {
+    width: 40px;
+    right: -40px;
+    border-radius: 0 50% 0 0;
+    border: none;
+    border-left: 1px dotted white;
+  }
+}
+
+.workspace {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: #3be;
+}
+
+@mixin notecard($top, $left) {
+  position: absolute;
+  top: $top; 
+  left: $left; 
+  height: 200px;
+  width: 400px;
+  padding: 10px;
+  background: white;
+  cursor: grab;
+  font-size: 14px;
+  font-family: 'Helvetica Neue', 'Helvetica', sans-serif;
+  box-shadow: 1px 2px 3px black;
+  textarea,
+  input,
+  button {
+    outline: none;
+  }
+  textarea { 
+    width: 100%; 
+  }
+  .clickbait {
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    bottom: 0;
+    right: -50px;
+    border-radius: 0 20px 20px 0;
+    display: none;
+  }
+  &:before,
+  &:after {
+    //Mobile Handles
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    background: white;
+    text-align: center;
+    font-family: "octicons";
+    font-size: 30px;
+    line-height: 50px;
+    display: none;  
+  }
+  &:after {
+    //Move
+    content: "\f041";
+    top: 0;
+    left: -50px;
+    border-radius: 20px 0 0 20px;
+    border-right: none;
+  }
+  &:before {
+    //Delete
+    content: "\f081";
+    bottom: 0;
+    right: -50px;
+    border-radius: 0 20px 20px 0;
+    border-left: none;
+    box-shadow: 1px 2px 3px black;
+  }
+  &.mobile:before,
+  &.mobile:after,
+  &.mobile .clickbait {
+    display: block;
+  }
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.notecard {
+  @include notecard(40%, 30%); 
+  transition: background ease 0.5s;
+   
+  .story {
+    .story-header {
+      display: block;
+      font-weight: bold;
+    }
+    textarea {
+      height: 25%;
+    }
+  }
+
+  &.crc {
+    &>* {
+      border: none;
+      background: none;
+      textarea { 
+        outline: none;
+        height: 100%;
+      }
+    }
+    .crc-class {
+      border-bottom: 2px solid black;
+      height: 30px;
+      width: 100%;
+      font-size: 20px;
+      line-height: 20px;
+    }
+    .crc-roles, 
+    .crc-collaborators {
+      display: inline-block;
+      padding: 0;
+      margin: 0;
+      width: 49%;
+      height: 80%;
+    }
+    .crc-roles { left: 0; }
+    .crc-collaborators { right: 0; }
+  }
+}

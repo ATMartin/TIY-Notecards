@@ -1,0 +1,269 @@
+var $workspace = $('.workspace');
+var $selectNewCard = $('.choose-new-notecard');
+
+var $templateStory = _.template($('[data-template-name=story-card').text());
+var $templateCrc = _.template($('[data-template-name=crc-card').text());
+
+var dbRoot = new Firebase("https://tiy-collections.firebaseio.com/Notecards");
+
+var myForEach = function(array, callback, scope) {
+  for (var i = 0; i < array.length; i++) {
+    callback.call(scope, i, array[i]);
+  }
+};
+
+var notecardData = function(type, left, top, data) {
+  this.type = type;
+  this.loc = [left, top];
+  this.data = data;
+}
+
+var getOpts = function(cardType) {
+  var opts = {};
+  switch (cardType) {
+    case 'story-jake':
+      opts = {
+        type: 'jake',
+        cond1: 'Given...',
+        cond2: '...when...',
+        cond3: '...then...'
+      };
+      break;
+    case 'story-user':
+      opts = {
+        type: 'user',
+        cond1: 'As a...',
+        cond2: '...I want...',
+        cond3: '...so that...'
+      };
+      break;
+    case 'story-jobs':
+      opts = {
+        type: 'jobs',
+        cond1: 'When I...',
+        cond2: '...I want...',
+        cond3: '...so that...'
+      }
+      break;
+  }
+  return opts;
+};
+
+var buildCard = function(cardType) {
+  if (cardType.indexOf('crc') > -1) {
+    return $templateCrc({});
+  } else {
+    return $templateStory(getOpts(cardType));
+  }
+}
+
+var populateStoryCard = function($card, data) {
+  $card.find('.one+textarea').val(data['one']);
+  $card.find('.two+textarea').val(data['two']);
+  $card.find('.three+textarea').val(data['three']);
+  return $card;
+}
+
+var populateCRCCard = function($card, data) {
+  $card.find('.crc-class').val(data['class']);
+  $card.find('.crc-roles>textarea').val(data['roles']);
+  $card.find('.crc-collaborators>textarea').val(data['collab']);
+  return $card;
+}
+
+var positionCard = function($card, x, y) {
+  $card.css({'top': y +'px', 'left': x + 'px'});
+  return $card;
+};
+
+var loadCard = function(cardData) {
+  var $thisCard = $(buildCard(cardData.type));
+  if (cardData.type.indexOf('crc') > -1) {
+    $thisCard = populateCRCCard($thisCard, cardData.data);
+  } else {
+    $thisCard = populateStoryCard($thisCard, cardData.data);
+  }
+  $thisCard = positionCard($thisCard, cardData.loc[0], cardData.loc[1]);
+  return $thisCard; 
+};
+
+var packageCard = function($card) {
+  var cardData = new notecardData(null, null, null, null);
+  var subType = $card.attr('class').match(/(jake|jobs|user|crc)/)[0];
+  if (subType == 'crc') {
+    cardData.type = 'crc-card';
+    cardData.data = {
+      'class' : $card.find('.crc-class').val(),
+      'roles' : $card.find('.crc-roles textarea').val(),
+      'collab' : $card.find('.crc-collaborators textarea').val() 
+    };
+  } else {
+    cardData.type = 'story-' + subType;
+    cardData.data = {
+      'one': $card.find('.one+textarea').val(),
+      'two': $card.find('.two+textarea').val(),
+      'three': $card.find('.three+textarea').val()
+    };
+  }
+  cardData.loc = [$card.offset().left, $card.offset().top];
+  return cardData;
+};
+
+var addCard = function() {
+  var cardType = $selectNewCard.val();
+  var newCard = buildCard(cardType);
+  $workspace.append(newCard);
+  $('.notecard').draggable();
+};
+
+var addCardAtPointer = function(x, y) {
+  var cardType = $selectNewCard.val();
+  var newCard = buildCard(cardType);
+  var wrappedCard = positionCard($(newCard), x, y);
+  $workspace.append(wrappedCard);
+  $('.notecard').draggable();
+}
+
+var deleteArm = function(me) {
+    me.attr('armed', true);
+    me.css('background-color', '#faa');
+    setTimeout(function() {deleteDisarm(me);}, 1000);
+}
+
+var deletePoof = function(me) {
+  if (me.attr('armed')) { me.remove(); }
+}
+
+var deleteDisarm = function(me) {
+  if (me.attr('armed')) {
+    me.removeAttr('armed');
+    me.css('background-color', '#afa');
+    setTimeout(function() { me.css('background-color', 'white'); }, 500);
+  }
+}
+
+var getNotecardData = function() {
+  var notecards = [];
+  myForEach($('.notecard'), function(idx, card) {
+    notecards.push(packageCard($(card)));  
+  });
+  return notecards;
+};
+
+var toggleDialog = function(selector) {
+  var nowRight = ($(selector).css('right') === '0px') ? '-250px' : '0';
+  $(selector).css('right', nowRight);
+}
+
+// ---------- DATABASE FUNCTIONS -------------
+
+var createCollection = function() {
+  dbRoot.set({'collOne': true});
+};
+
+var addNotesToCollection = function(notes, collection, overwrite) {
+  overwrite = overwrite || false;
+  if (overwrite) {
+    dbRoot.child(collection).set({});
+  }
+  notes.forEach(function(note) {
+    dbRoot.child(collection).push(note);
+  });
+};
+
+var getNotesFromCollection = function(collection) {
+   dbRoot.child(collection).once('value', function(notes) {
+    notes.forEach(function(note) {
+      $workspace.append(loadCard(note.val())); 
+    });
+    $('.notecard').draggable();
+   });
+};
+
+
+// ----------- EVENT HANDLERS ----------------
+
+$(document).ready(function() {
+  var queryOne = window.location.search.split('&')[0];
+  if (queryOne.split('=')[0] === '?set') {
+    getNotesFromCollection(queryOne.split('=')[1]);
+  }
+});
+
+$('.pane-hide').on('click', function(e) {
+  $('.sidebar').css('left', '-300px');  
+});
+
+$('.pane-show').on('click', function(e) {
+  $('.sidebar').css('left', '0px');  
+});
+
+$('.add-card').on('click', function(e) {
+   addCard();
+});
+
+$('.clear').on('click', function(e) {
+  $workspace.empty();  
+});
+
+$('.mobile').on('click', function(e) {
+  $('.notecard').toggleClass('mobile');  
+});
+
+$('.save').on('click', function(e) {
+  toggleDialog('.dlg-save');  
+});
+
+$('.do-save').on('click', function(e) {
+  var $input = $(this).prev('.collection-name');
+  if ( $input.val() === '') { return; } 
+  var theseNotes = getNotecardData();
+  var overwrite = !!$('.overwrite').is(':checked');
+  addNotesToCollection(theseNotes, $input.val(), overwrite);
+  $input.val('');
+  toggleDialog('.dlg-save');
+});
+
+$('.load').on('click', function(e) {
+  toggleDialog('.dlg-load');
+});
+
+$('.do-load').on('click', function(e) {
+  var $input = $(this).prev('.collection-name');
+  if ( $input.val() === '') { return; }
+  getNotesFromCollection($input.val());
+  $input.val('');
+  toggleDialog('.dlg-load');
+});
+
+$workspace.on('dblclick', '.notecard', function(e) {
+  e.preventDefault();
+  deleteArm($(this)); 
+  e.stopPropagation(); 
+});
+
+$workspace.on('click', '.notecard', function(e) {
+  deletePoof($(this));
+});
+
+$workspace.on('click', '.clickbait', function(e) {
+  deleteArm($(this).parent());
+  e.stopPropagation();
+});
+
+$workspace.on('dblclick', function(e) {
+  e.preventDefault();
+  addCardAtPointer(e.pageX, e.pageY);
+});
+
+$
+
+$(document).ready(function() {
+  console.log("******Hi there!********");
+  console.log("If you're interested enough to check your console, you must be having fun!");
+  console.log("Why not get in touch with me @ADotMartin (Twitter) or @ATMartin (Github)?");
+  console.log("I'd love to hear your thoughts!");
+  console.log("*******Thanks!*********");
+  console.log("                  -- Alex");  
+});
+
